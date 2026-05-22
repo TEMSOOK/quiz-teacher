@@ -317,12 +317,21 @@ function sfl(a){
   return b;
 }
 function saveSheet(sub,sch,type,score){
+  var payload="subject="+encodeURIComponent(sub)
+    +"&school="+encodeURIComponent(sch)
+    +"&testType="+encodeURIComponent(type)
+    +"&score="+encodeURIComponent(score)
+    +"&timestamp="+encodeURIComponent(new Date().toISOString());
+  // วิธีที่ 1: fetch no-cors
+  fetch(SHEET,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{"Content-Type":"application/x-www-form-urlencoded"},
+    body:payload
+  }).catch(function(){});
+  // วิธีที่ 2: Image beacon เป็น fallback
   try{
-    var f=document.createElement("form");
-    f.method="POST";f.action=SHEET;f.target="hf";
-    var d={subject:sub,school:sch,testType:type,score:score,timestamp:new Date().toISOString()};
-    for(var k in d){var ip=document.createElement("input");ip.type="hidden";ip.name=k;ip.value=d[k];f.appendChild(ip);}
-    document.body.appendChild(f);f.submit();document.body.removeChild(f);
+    new Image().src=SHEET+"?"+payload+"&_="+Date.now();
   }catch(e2){}
 }
 function doLookup(){
