@@ -40,7 +40,6 @@ body{font-family:"Noto Sans Thai",sans-serif;background:var(--paper);color:var(-
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
 /* LAYOUT */
 .content{flex:1;padding:24px 16px 48px;max-width:640px;margin:0 auto;width:100%}
-/* SCREEN */
 .screen{display:none}
 .screen.on{display:block;animation:up .2s ease}
 @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -60,12 +59,17 @@ body{font-family:"Noto Sans Thai",sans-serif;background:var(--paper);color:var(-
 .ct{font-size:14px;font-weight:600}
 .cd{font-size:12px;color:var(--ink3);margin-top:1px}
 .card-b{padding:18px}
-/* FORM */
-.fg2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.field{display:flex;flex-direction:column;gap:4px}
-.field label{font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em}
-.field input{padding:9px 12px;border:1px solid var(--border2);border-radius:8px;font-family:"Noto Sans Thai",sans-serif;font-size:14px;color:var(--ink);background:#fff;outline:none}
-.field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,150,62,.12)}
+/* SELECT */
+.lbl{font-size:12px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.school-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.num-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px}
+.sel-btn{border:1.5px solid var(--border2);border-radius:8px;padding:10px 6px;font-family:"Noto Sans Thai",sans-serif;font-size:13px;font-weight:500;background:#fff;color:var(--ink);cursor:pointer;transition:all .15s;text-align:center;line-height:1.4}
+.sel-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
+.sel-btn.active{border-color:var(--gold);background:var(--gold-pale);color:var(--gold);font-weight:700}
+/* SELECTED INFO BOX */
+.info-box{background:var(--teal-pale);border:1px solid rgba(26,122,94,.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--teal);margin-bottom:14px;display:none}
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:14px 0}
 /* BTN */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:8px;font-family:"Noto Sans Thai",sans-serif;font-size:14px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:#fff;color:var(--ink);transition:all .15s}
 .btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -85,7 +89,7 @@ body{font-family:"Noto Sans Thai",sans-serif;background:var(--paper);color:var(-
 .tc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .18s}
 .tc.pre::before{background:linear-gradient(90deg,#C8963E,#E8B96A)}
 .tc.post::before{background:linear-gradient(90deg,#1A7A5E,#25A07A)}
-.tc:hover::before,.tc:focus::before{opacity:1}
+.tc:hover::before{opacity:1}
 .tc:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);transform:translateY(-1px)}
 .tc:disabled,.tc[disabled]{opacity:.35;cursor:not-allowed;pointer-events:none;transform:none}
 .tc-ic{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
@@ -94,8 +98,6 @@ body{font-family:"Noto Sans Thai",sans-serif;background:var(--paper);color:var(-
 .tc.post .tc-ic{background:var(--teal-pale);color:var(--teal)}
 .tc-t{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
 .tc-d{font-size:12px;color:var(--ink3)}
-/* DIVIDER */
-.div{height:1px;background:var(--border);margin:14px 0}
 /* QUIZ */
 .qtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .ptrack{height:4px;background:var(--paper3);border-radius:4px;margin-bottom:18px;overflow:hidden}
@@ -115,7 +117,6 @@ body{font-family:"Noto Sans Thai",sans-serif;background:var(--paper);color:var(-
 .otxt{font-size:14px;line-height:1.5}
 .qnav{display:flex;align-items:center;justify-content:space-between;padding:0 0 6px}
 .apill{font-size:12px;color:var(--ink3);background:var(--paper2);border:1px solid var(--border);padding:4px 11px;border-radius:20px}
-/* BADGE */
 .badge{display:inline-flex;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px}
 .bg{background:var(--gold-pale);color:var(--gold)}
 .bt{background:var(--teal-pale);color:var(--teal)}
@@ -141,80 +142,61 @@ body{font-family:"Noto Sans Thai",sans-serif;background:var(--paper);color:var(-
 .ro.cor{border-color:var(--teal);background:var(--teal-pale);color:var(--teal)}
 .ro.wr{border-color:var(--red);background:var(--red-pale);color:var(--red)}
 .rok{font-weight:700;flex-shrink:0}
-/* FOOTER */
 .foot{text-align:center;padding:0 0 20px;font-size:12px;color:var(--ink3)}
 @media(max-width:480px){
-  .fg2,.test-row{grid-template-columns:1fr}
+  .school-grid{grid-template-columns:1fr}
+  .num-grid{grid-template-columns:repeat(5,1fr)}
+  .test-row{grid-template-columns:1fr}
   .rscore{font-size:56px}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-
 <header class="top">
   <div class="top-brand">
-    <div class="top-logo">
-      <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17"/><path d="M5 11v5c0 1.66 3.13 3 7 3s7-1.34 7-3v-5"/></svg>
-    </div>
-    <div>
-      <div class="top-name">สมรรถนะครู</div>
-      <div class="top-tag">PISA-Based Assessment</div>
-    </div>
+    <div class="top-logo"><svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17"/><path d="M5 11v5c0 1.66 3.13 3 7 3s7-1.34 7-3v-5"/></svg></div>
+    <div><div class="top-name">สมรรถนะครู</div><div class="top-tag">PISA-Based Assessment</div></div>
   </div>
   <div class="top-r">ศน. · 2567</div>
 </header>
-
 <div id="tbar" class="tbar">
-  <svg class="tring" viewBox="0 0 28 28">
-    <circle class="bg" cx="14" cy="14" r="12"/>
-    <circle class="fg" id="tfg" cx="14" cy="14" r="12"/>
-  </svg>
-  <div>
-    <div class="tdisp" id="tdisp">45:00</div>
-    <div class="tlbl">เวลาที่เหลือ</div>
-  </div>
+  <svg class="tring" viewBox="0 0 28 28"><circle class="bg" cx="14" cy="14" r="12"/><circle class="fg" id="tfg" cx="14" cy="14" r="12"/></svg>
+  <div><div class="tdisp" id="tdisp">45:00</div><div class="tlbl">เวลาที่เหลือ</div></div>
 </div>
-
 <div class="content">
 
+<!-- HOME -->
 <div id="s-home" class="screen on">
   <div class="hero">
     <div class="hero-ey">แบบทดสอบออนไลน์</div>
     <div class="hero-t">การจัดการเรียนรู้บูรณาการ<br>โดยใช้แหล่งเรียนรู้ท้องถิ่น</div>
     <div class="hero-s">วัดและประเมินสมรรถนะก่อน–หลังรับการนิเทศ ตามแนวทาง PISA</div>
-    <div class="pills">
-      <span class="pill">30 ข้อ · 4 ตอน</span>
-      <span class="pill">45 นาที</span>
-      <span class="pill">บันทึก Google Sheets</span>
-    </div>
+    <div class="pills"><span class="pill">30 ข้อ · 4 ตอน</span><span class="pill">45 นาที</span><span class="pill">บันทึก Google Sheets</span></div>
   </div>
   <div class="card">
     <div class="card-h">
-      <div class="ci">
-        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </div>
-      <div><div class="ct">ลงทะเบียนเข้าสอบ</div><div class="cd">กรอกวิชาที่สอนและชื่อโรงเรียน</div></div>
+      <div class="ci"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div><div class="ct">เลือกโรงเรียนและเลขที่</div><div class="cd">เลือกข้อมูลของท่านเพื่อเข้าสอบ</div></div>
     </div>
     <div class="card-b">
-      <div class="fg2">
-        <div class="field"><label>วิชาที่สอน</label><input id="i-sub" type="text" placeholder="เช่น ภาษาไทย"></div>
-        <div class="field"><label>โรงเรียน</label><input id="i-sch" type="text" placeholder="ชื่อโรงเรียน"></div>
-      </div>
-      <button class="btn btn-dk" id="btn-lookup" onclick="doLookup()">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        ค้นหาข้อมูล
+      <div class="lbl">โรงเรียน</div>
+      <div class="school-grid" id="school-grid"></div>
+      <div class="lbl">เลขที่</div>
+      <div class="num-grid" id="num-grid"></div>
+      <div class="info-box" id="info-box"></div>
+      <button class="btn btn-dk" id="btn-confirm" onclick="doConfirm()" style="display:none">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>ยืนยันและเข้าสอบ
       </button>
-
       <div id="test-area" style="display:none">
-        <div class="div"></div>
+        <div class="divider"></div>
         <div id="al-pre" class="alert al-ok" style="display:none">
           <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           <span id="al-pre-txt"></span>
         </div>
         <div id="al-lock" class="alert al-warn" style="display:none">
           <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <span>ต้องสอบ <strong>ก่อนรับการนิเทศ</strong> ก่อน</span>
+          <span>ยังไม่ได้สอบก่อนรับการนิเทศ</span>
         </div>
         <div id="al-post" class="alert al-ok" style="display:none">
           <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -237,13 +219,11 @@ body{font-family:"Noto Sans Thai",sans-serif;background:var(--paper);color:var(-
   </div>
 </div>
 
+<!-- QUIZ -->
 <div id="s-quiz" class="screen">
   <div class="qtop">
     <div><span style="font-size:13px;font-weight:600" id="qnum">ข้อที่ 1</span> <span style="font-size:12px;color:var(--ink3)">/ 30</span></div>
-    <div style="display:flex;gap:6px">
-      <span class="badge bg" id="qbadge">ก่อนนิเทศ</span>
-      <span class="badge bgr" id="qname"></span>
-    </div>
+    <div style="display:flex;gap:6px"><span class="badge bg" id="qbadge">ก่อนนิเทศ</span><span class="badge bgr" id="qname"></span></div>
   </div>
   <div class="ptrack"><div class="pbar" id="pbar" style="width:3.33%"></div></div>
   <div class="qcard">
@@ -263,18 +243,16 @@ body{font-family:"Noto Sans Thai",sans-serif;background:var(--paper);color:var(-
   </div>
 </div>
 
+<!-- RESULT -->
 <div id="s-result" class="screen">
   <div id="res-out"></div>
   <div class="btn-row">
-    <button class="btn btn-dk" onclick="goHome()">
-      <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>หน้าหลัก
-    </button>
-    <button class="btn" onclick="doReview()">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>ตรวจคำตอบ
-    </button>
+    <button class="btn btn-dk" onclick="goHome()"><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>หน้าหลัก</button>
+    <button class="btn" onclick="doReview()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>ตรวจคำตอบ</button>
   </div>
 </div>
 
+<!-- REVIEW -->
 <div id="s-review" class="screen">
   <div class="bbar">
     <button class="btn" onclick="backRes()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
@@ -286,10 +264,10 @@ body{font-family:"Noto Sans Thai",sans-serif;background:var(--paper);color:var(-
 </div>
 <div class="foot">สำนักงานศึกษาธิการ · ระบบแบบทดสอบสมรรถนะครู © 2567</div>
 </div>
-<iframe name="hf" style="display:none"></iframe>
 <script>
 var Q=[{"q": "ครูสมศรีออกแบบหน่วยการเรียนรู้โดยให้นักเรียนศึกษาระบบการจัดการน้ำในชุมชน โดยนำเนื้อหาวิทยาศาสตร์ สังคมศึกษา และคณิตศาสตร์มาหลอมรวมกันเป็นโจทย์เดียว นักเรียนต้องวิเคราะห์สาเหตุการขาดแคลนน้ำ คำนวณปริมาณการใช้น้ำ และเสนอแนวทางแก้ไข ลักษณะการบูรณาการของครูสมศรีสอดคล้องกับหลักการใดมากที่สุด", "o": ["การสอนแต่ละวิชาแยกกันโดยมีหัวข้อร่วมกันแต่ไม่เชื่อมเนื้อหา", "การสอนเนื้อหาทีละวิชาตามลำดับหลักสูตรแล้วค่อยเชื่อมโยงภายหลัง", "การให้ครูหลายคนร่วมสอนในหัวข้อเดียวกันพร้อมกัน", "การนำเนื้อหาหลายวิชามาหลอมรวมเพื่อแก้ปัญหาในบริบทจริง"], "a": 3}, {"q": "โรงเรียนแห่งหนึ่งในอำเภอแม่แตง จัดกิจกรรมให้นักเรียนสัมภาษณ์ช่างทอผ้าในหมู่บ้าน วิเคราะห์ลวดลายที่สื่อความหมายทางวัฒนธรรม และนำเสนอข้อเสนอแนะเพื่ออนุรักษ์ภูมิปัญญา เมื่อเปรียบเทียบกับโรงเรียนที่ใช้เพียงตำราเรียนเล่าเรื่องการทอผ้า กิจกรรมของโรงเรียนแม่แตงมีจุดแข็งในด้านใดชัดเจนที่สุด", "o": ["นักเรียนได้ความรู้ลึกกว่าเพราะแหล่งข้อมูลคือคนในชุมชนโดยตรง", "ครูประหยัดเวลาเตรียมการสอนเพราะไม่ต้องพึ่งตำราเรียนเป็นหลัก", "นักเรียนนำความรู้ไปใช้ในสถานการณ์จริงและพัฒนาทักษะการคิดวิเคราะห์", "นักเรียนมีแรงจูงใจสูงกว่าเพราะกิจกรรมสนุกและน่าสนใจกว่า"], "a": 2}, {"q": "ครูวางแผนจัดการเรียนรู้บูรณาการเรื่องป่าชุมชนกับการเปลี่ยนแปลงสภาพภูมิอากาศ แต่เมื่อวิเคราะห์ตัวชี้วัดพบว่าสาระวิทยาศาสตร์และสังคมศึกษามีจุดเชื่อมโยงชัดเจน ขณะที่ภาษาไทยเชื่อมได้เพียงผิวเผิน ครูควรตัดสินใจอย่างไร", "o": ["บูรณาการทั้ง 3 วิชาเพราะทำให้แผนการสอนดูครบถ้วนน่าเชื่อถือ", "เพิ่มวิชาอื่นเข้าไปอีกเพื่อให้ครอบคลุมทุกกลุ่มสาระให้มากที่สุด", "บูรณาการเฉพาะวิชาที่มีจุดเชื่อมโยงกับบริบทจริงอย่างมีนัยสำคัญ", "ยกเลิกการบูรณาการแล้วสอนแต่ละวิชาแยกกันตามปกติก่อน"], "a": 2}, {"q": "ครูสองท่านออกแบบแผนการเรียนรู้เรื่องตลาดเช้าในชุมชน ครูก. ให้นักเรียนสังเกตและบันทึกรายชื่อสินค้า ครูข. ให้นักเรียนวิเคราะห์ว่าราคาสินค้าเปลี่ยนแปลงตามฤดูกาลอย่างไรและส่งผลต่อรายได้ของเกษตรกรในชุมชนอย่างไร หากพิจารณาตามกรอบ PISA แผนของครูใดพัฒนาสมรรถนะนักเรียนได้ดีกว่าและเพราะเหตุใด", "o": ["ครูก. เพราะการบันทึกข้อมูลเป็นทักษะพื้นฐานที่นักเรียนต้องมีก่อน", "ครูข. เพราะกระตุ้นการคิดวิเคราะห์และเชื่อมโยงความรู้กับชีวิตจริง", "ทั้งสองแผนดีเท่ากันเพราะใช้แหล่งเรียนรู้ท้องถิ่นชนิดเดียวกัน", "ครูก. เพราะนักเรียนระดับประถมยังไม่พร้อมสำหรับการวิเคราะห์ที่ซับซ้อน"], "a": 1}, {"q": "โรงเรียนในพื้นที่ภูเขามีแหล่งเรียนรู้ท้องถิ่นหลายแห่ง ได้แก่ น้ำตก สวนชาอินทรีย์ ศูนย์หัตถกรรมชนเผ่า และวัดโบราณ ครูต้องการออกแบบหน่วยการเรียนรู้บูรณาการที่ส่งเสริมความฉลาดรู้ด้านวิทยาศาสตร์และสังคมตามแนวทาง PISA ควรเลือกแหล่งเรียนรู้ใดและด้วยเหตุผลใด", "o": ["น้ำตก เพราะสวยงามตามธรรมชาติและนักเรียนให้ความสนใจมากที่สุด", "วัดโบราณ เพราะมีคุณค่าทางประวัติศาสตร์และเป็นรากเหง้าของชุมชน", "ศูนย์หัตถกรรมชนเผ่า เพราะเป็นอัตลักษณ์เฉพาะของพื้นที่ภาคเหนือ", "สวนชาอินทรีย์ เพราะเชื่อมโยงระบบนิเวศ เคมีดิน เศรษฐกิจ และความยั่งยืน"], "a": 3}, {"q": "ครูท่านหนึ่งออกแบบกิจกรรมโดยให้นักเรียนศึกษาปัญหาหมอกควันในจังหวัดเชียงใหม่ แต่กำหนดให้นักเรียนเพียงสรุปข้อมูลจากบทความที่ครูคัดมาให้ เมื่อเทียบกับเป้าหมายของ PISA สิ่งที่กิจกรรมนี้ยังขาดอยู่มากที่สุดคือข้อใด", "o": ["การให้นักเรียนคิดวิเคราะห์ ประเมินสถานการณ์ และเสนอแนวทางแก้ไขที่มีเหตุผล", "การให้นักเรียนค้นคว้าข้อมูลด้วยตนเองจากแหล่งที่หลากหลายยิ่งขึ้น", "การให้นักเรียนนำเสนอผลงานสรุปข้อมูลต่อหน้าเพื่อนในชั้นเรียน", "การให้นักเรียนทำงานร่วมกันเป็นกลุ่มแทนการทำงานเป็นรายบุคคล"], "a": 0}, {"q": "ผู้บริหารโรงเรียนสังเกตพบว่าครูในโรงเรียนออกแบบแผนการสอนบูรณาการที่มีกิจกรรมมากมายแต่ผลสัมฤทธิ์ของนักเรียนไม่เพิ่มขึ้น สาเหตุที่น่าจะเป็นไปได้มากที่สุดคือข้อใด", "o": ["นักเรียนขาดแรงจูงใจและไม่ให้ความร่วมมือในกิจกรรมที่จัดขึ้น", "แหล่งเรียนรู้ท้องถิ่นที่เลือกใช้ไม่ตรงกับความสนใจของนักเรียนจริง", "ครูใช้เวลาทำกิจกรรมมากเกินไปจนสอนเนื้อหาตามหลักสูตรไม่ครบ", "กิจกรรมเน้นความสนุกสนานแต่ขาดการเชื่อมโยงกับมาตรฐานและการคิดขั้นสูง"], "a": 3}, {"q": "ศึกษานิเทศก์ตรวจสอบแผนการจัดการเรียนรู้บูรณาการของครู 2 ท่าน พบว่าแผนของครู A ระบุจุดประสงค์ว่านักเรียนรู้จักพืชสมุนไพรในท้องถิ่น ส่วนแผนของครู B ระบุว่านักเรียนสามารถวิเคราะห์คุณสมบัติของสมุนไพรท้องถิ่นและประเมินความเป็นไปได้ในการนำไปพัฒนาเป็นผลิตภัณฑ์ชุมชน จุดประสงค์ของครูคนใดสอดคล้องกับแนวทาง PISA มากกว่าและเพราะเหตุใด", "o": ["ครู A เพราะจุดประสงค์เข้าใจง่ายและเหมาะกับระดับชั้นของนักเรียน", "ครู B เพราะวัดสมรรถนะการคิดขั้นสูงและการนำความรู้ไปใช้ในบริบทจริง", "ทั้งสองเหมือนกันเพราะต่างกล่าวถึงสมุนไพรท้องถิ่นในบริบทเดียวกัน", "ครู A เพราะจุดประสงค์ที่สั้นกระชับวัดผลได้ตรงและง่ายกว่าเสมอ"], "a": 1}, {"q": "ครูได้รับมอบหมายให้ออกแบบหน่วยการเรียนรู้บูรณาการใหม่ทั้งหมดภายใน 2 สัปดาห์ ครูเริ่มต้นด้วยการออกแบบกิจกรรมที่ดูน่าสนใจก่อน แล้วค่อยหาตัวชี้วัดมาเชื่อมทีหลัง ศึกษานิเทศก์ควรให้คำแนะนำอย่างไร", "o": ["ยอมรับวิธีนี้เพราะความคิดสร้างสรรค์ควรมาก่อนกรอบของหลักสูตร", "แนะนำให้เริ่มจากมาตรฐานและตัวชี้วัดก่อน แล้วออกแบบกิจกรรมย้อนกลับ", "แนะนำให้ขยายระยะเวลาออกแบบเป็น 4 สัปดาห์เพื่อให้มีความรอบคอบ", "แนะนำให้นำแผนของครูคนอื่นมาปรับใช้แทนการสร้างใหม่ทั้งหมด"], "a": 1}, {"q": "ครูวางแผนพานักเรียนไปเรียนรู้ที่นาข้าวในชุมชน แต่ยังไม่แน่ใจว่าจะออกแบบกิจกรรมอย่างไร เพื่อนครูเสนอ 4 แนวทาง ครูควรเลือกแนวทางใดจึงจะพัฒนาความฉลาดรู้ตามแนวทาง PISA ได้ดีที่สุด", "o": ["ให้นักเรียนวาดภาพและเขียนบรรยายทิวทัศน์นาข้าวที่พบเห็น", "ให้นักเรียนตั้งคำถาม เก็บข้อมูล วิเคราะห์ต้นทุน และเสนอแนวทางพัฒนาอาชีพ", "ให้นักเรียนสัมภาษณ์ชาวนาในชุมชนแล้วนำมาเล่าให้เพื่อนฟังในชั้น", "ให้นักเรียนชมสาธิตการปลูกข้าวแล้วทำใบงานตอบคำถามตามที่กำหนด"], "a": 1}, {"q": "ครูสองท่านออกแบบจุดประสงค์การเรียนรู้บูรณาการเรื่องเดียวกัน ครู A เขียนว่านักเรียนสามารถอธิบายวงจรชีวิตของแมลงได้ ครู B เขียนว่านักเรียนสามารถวิเคราะห์บทบาทของแมลงในระบบนิเวศสวนผลไม้ท้องถิ่นและประเมินผลกระทบของการใช้สารเคมีต่อความสมดุลของระบบนิเวศ ข้อใดอธิบายความแตกต่างได้ถูกต้องที่สุด", "o": ["จุดประสงค์ครู A วัดได้ง่ายกว่าจึงเหมาะกับการนำไปใช้จริงมากกว่า", "จุดประสงค์ทั้งสองดีเท่ากันเพราะครอบคลุมหัวข้อเรื่องเดียวกัน", "จุดประสงค์ครู A เหมาะกับนักเรียนระดับประถมมากกว่าเพราะไม่ซับซ้อน", "จุดประสงค์ครู B กระตุ้นการคิดขั้นสูงและเชื่อมโยงบริบทชีวิตจริงได้ดีกว่า"], "a": 3}, {"q": "ครูออกแบบกิจกรรมให้นักเรียนไปสำรวจตลาดเช้าในชุมชนแล้วทำรายงาน แต่ศึกษานิเทศก์สังเกตพบว่ากิจกรรมนี้วัดได้เพียงระดับการจำและเข้าใจเท่านั้น ศึกษานิเทศก์ควรแนะนำให้ครูปรับกิจกรรมในลักษณะใดเพื่อยกระดับสู่การคิดขั้นสูง", "o": ["ให้นักเรียนสรุปข้อมูลสินค้าในตลาดให้ครบถ้วนและละเอียดยิ่งขึ้น", "ให้นักเรียนวิเคราะห์แนวโน้มราคา ประเมินปัจจัย และออกแบบแผนธุรกิจชุมชน", "ให้นักเรียนสัมภาษณ์ผู้ขายสินค้าเพิ่มเติมเพื่อให้ข้อมูลมีความครบถ้วน", "ให้นักเรียนถ่ายภาพสินค้าและจัดทำนิทรรศการแสดงผลในโรงเรียน"], "a": 1}, {"q": "ครูในโรงเรียนพื้นที่ภาคเหนือมีงบประมาณจำกัดในการจัดหาสื่อ นักเรียนส่วนใหญ่มีความเป็นอยู่แบบเกษตรกรรม ครูควรเลือกสื่อและวัสดุประกอบการเรียนรู้ในลักษณะใดจึงจะเหมาะสมกับบริบทมากที่สุด", "o": ["ขอรับสื่อสำเร็จรูปจากส่วนกลางที่มีเนื้อหาครอบคลุมหลายภูมิภาค", "พัฒนาสื่อจากทรัพยากรชุมชน เช่น แผนที่ท้องถิ่น ภูมิปัญญา และวัสดุธรรมชาติ", "ใช้สื่อดิจิทัลออนไลน์เป็นหลักเพราะทันสมัยและนักเรียนสนใจมากกว่า", "จัดซื้อหนังสือเสริมจากสำนักพิมพ์เอกชนที่ได้รับการรับรองคุณภาพ"], "a": 1}, {"q": "ครูสองท่านจัดกิจกรรมแหล่งเรียนรู้ท้องถิ่นเรื่องเดียวกัน ครู A พานักเรียนไปวัดแล้วให้คัดลอกจารึกบนศิลา ครู B พานักเรียนไปวัดเดียวกัน ให้สัมภาษณ์พระและผู้สูงอายุ วิเคราะห์ความเชื่อมโยงระหว่างประวัติวัดกับพัฒนาการชุมชน แล้วเขียนบทความเสนอแนวทางอนุรักษ์ เมื่อประเมินตามกรอบ PISA กิจกรรมใดมีคุณภาพสูงกว่า", "o": ["กิจกรรมครู A เพราะนักเรียนได้รับข้อมูลจากแหล่งปฐมภูมิโดยตรง", "กิจกรรมครู B เพราะต้องคิดวิเคราะห์ สังเคราะห์ และสร้างข้อเสนอต่อชุมชน", "กิจกรรมทั้งสองดีเท่ากันเพราะใช้สถานที่แหล่งเรียนรู้เดียวกัน", "กิจกรรมครู A เพราะรูปแบบง่ายกว่าและครูสามารถประเมินผลได้ง่าย"], "a": 1}, {"q": "ศึกษานิเทศก์ตรวจแผนการเรียนรู้บูรณาการของครูหลายท่าน พบว่าทุกแผนมีกิจกรรมที่ดีและจุดประสงค์ชัดเจน แต่ส่วนใหญ่ขาดองค์ประกอบเดียวกัน ซึ่งส่งผลให้ครูไม่ทราบว่านักเรียนพัฒนาสมรรถนะจริงหรือไม่ องค์ประกอบที่ขาดนั้นคืออะไร", "o": ["ภาพประกอบและสีสันที่ดึงดูดความสนใจในเอกสารแผนการสอน", "รายการวัสดุอุปกรณ์ทั้งหมดที่ต้องใช้ประกอบในแต่ละกิจกรรม", "เครื่องมือวัดและเกณฑ์การประเมินที่สะท้อนสมรรถนะจริงของนักเรียน", "การระบุจำนวนชิ้นงานที่นักเรียนต้องส่งและเกณฑ์การผ่านชัดเจน"], "a": 2}, {"q": "ครูต้องการเลือกแหล่งเรียนรู้ท้องถิ่นเพื่อออกแบบหน่วยการเรียนรู้ แต่พบว่าแหล่งที่ครูชอบอยู่ไกลและเชื่อมโยงตัวชี้วัดน้อย ขณะที่แหล่งใกล้โรงเรียนเชื่อมโยงตัวชี้วัดได้ดีมากแต่ดูเรียบง่าย ครูควรตัดสินใจอย่างไร", "o": ["เลือกแหล่งที่ครูชอบเพราะความกระตือรือร้นของครูส่งผลต่อคุณภาพ", "เลือกแหล่งที่ไกลกว่าเพราะนักเรียนจะได้รับประสบการณ์แปลกใหม่", "ใช้ทั้งสองแหล่งสลับกันเพื่อให้นักเรียนได้ประสบการณ์หลากหลาย", "เลือกแหล่งที่เชื่อมตัวชี้วัดได้ดีกว่า เพราะคุณค่าขึ้นอยู่กับกิจกรรม"], "a": 3}, {"q": "นักเรียนกลุ่มหนึ่งอ่านบทความเรื่องการท่องเที่ยวชุมชนได้คล่อง สามารถตอบคำถามเกี่ยวกับเนื้อหาได้ถูกต้องทุกข้อ แต่เมื่อครูถามว่าข้อมูลในบทความน่าเชื่อถือเพียงใดและควรนำไปใช้ประโยชน์อย่างไร นักเรียนตอบไม่ได้ สิ่งที่นักเรียนกลุ่มนี้ยังขาดอยู่ตามกรอบ PISA คืออะไร", "o": ["ทักษะการอ่านออกเสียงและการออกเสียงให้ถูกต้องตามหลักภาษา", "ความสามารถในการตีความ ประเมินคุณภาพข้อมูล และนำไปแก้ปัญหาจริง", "ความรู้เนื้อหาเชิงลึกเกี่ยวกับการท่องเที่ยวและการพัฒนาชุมชน", "ทักษะการสรุปความและจับใจความสำคัญจากเนื้อหาบทความที่อ่าน"], "a": 1}, {"q": "ครูจัดกิจกรรม 2 แบบเพื่อส่งเสริมความฉลาดรู้ด้านการอ่าน แบบที่ 1 ให้นักเรียนอ่านบทความเรื่องน้ำท่วมชุมชนแล้วตอบคำถามปลายปิด แบบที่ 2 ให้นักเรียนอ่านบทความ 3 ชิ้นที่มีมุมมองต่างกัน วิเคราะห์ความเหมือนและต่าง แล้วเขียนข้อเสนอแนะต่อผู้นำชุมชน กิจกรรมแบบใดสอดคล้องกับแนวทาง PISA มากกว่า", "o": ["แบบที่ 1 เพราะวัดความเข้าใจเนื้อหาได้ชัดเจนและตรงไปตรงมา", "แบบที่ 2 เพราะใช้การคิดเชิงวิพากษ์ บูรณาการหลายแหล่ง และนำไปใช้จริง", "ทั้งสองแบบดีเท่ากันเพราะใช้บทความเรื่องและประเด็นเดียวกัน", "แบบที่ 1 เพราะนักเรียนชั้นประถมยังไม่พร้อมวิเคราะห์ข้อมูลหลายแหล่ง"], "a": 1}, {"q": "ครูต้องการส่งเสริมความฉลาดรู้ด้านคณิตศาสตร์โดยใช้ชุมชนเป็นบริบท ครูออกแบบกิจกรรม 2 แบบ แบบแรกให้นักเรียนฝึกโจทย์คณิตศาสตร์ที่ดัดแปลงบริบทให้เกี่ยวกับเกษตรกรรม แบบที่สองให้นักเรียนวัดพื้นที่แปลงเกษตรจริง คำนวณต้นทุนกำไร แล้วเสนอแผนเพิ่มผลผลิตต่อเกษตรกรในชุมชน ข้อใดอธิบายความแตกต่างได้ถูกต้องที่สุด", "o": ["กิจกรรมแบบแรกดีกว่าเพราะนักเรียนได้ฝึกทักษะคณิตศาสตร์ซ้ำหลายครั้ง", "กิจกรรมแบบที่สองพัฒนาความฉลาดรู้สูงกว่าเพราะใช้คณิตศาสตร์แก้ปัญหาจริง", "ทั้งสองกิจกรรมดีเท่ากันเพราะต่างมีเนื้อหาเกี่ยวกับเกษตรกรรมเหมือนกัน", "กิจกรรมแบบแรกปลอดภัยกว่าเพราะไม่ต้องพานักเรียนออกนอกโรงเรียน"], "a": 1}, {"q": "นักเรียนในชุมชนสังเกตพบว่าแมลงในสวนผลไม้ลดจำนวนลงมากในช่วง 2 ปีที่ผ่านมา ครูวิทยาศาสตร์ต้องการใช้สถานการณ์นี้พัฒนาความฉลาดรู้ด้านวิทยาศาสตร์ตามแนวทาง PISA ครูควรออกแบบกิจกรรมในลักษณะใด", "o": ["ให้นักเรียนอ่านบทความแล้วสรุปสาเหตุการลดลงตามที่นักวิทยาศาสตร์ระบุ", "ให้นักเรียนทำการทดลองในห้องปฏิบัติการตามขั้นตอนที่ครูกำหนดล่วงหน้า", "ให้นักเรียนตั้งสมมติฐาน สำรวจในสวนจริง วิเคราะห์ผล และเสนอแนะเชิงนโยบาย", "ให้นักเรียนชมสารคดีเกี่ยวกับระบบนิเวศในชุมชนแล้วอภิปรายในชั้นเรียน"], "a": 2}, {"q": "ครูสังเกตพบว่านักเรียนในห้องมักรอรับคำตอบจากครูแทนการคิดเอง แม้เมื่อต้องเผชิญกับปัญหาง่าย ครูควรปรับกิจกรรมการเรียนรู้อย่างไรเพื่อพัฒนานิสัยการคิดด้วยตนเองอย่างยั่งยืน", "o": ["ให้รางวัลนักเรียนที่ตอบคำถามได้เร็วที่สุดเพื่อสร้างแรงจูงใจ", "ออกแบบสถานการณ์ที่ไม่มีคำตอบตายตัว กระตุ้นการตั้งคำถามและสะท้อนคิด", "ลดจำนวนคำถามในชั้นเรียนลงและเพิ่มเวลาให้นักเรียนคิดมากขึ้น", "ให้นักเรียนเรียนจากตัวอย่างที่ครูสาธิตก่อนแล้วจึงฝึกปฏิบัติตาม"], "a": 1}, {"q": "ระหว่างพานักเรียนเยี่ยมชมสวนสมุนไพรในชุมชน ครูถามว่าต้นตะไคร้นี้คืออะไร นักเรียนทุกคนตอบได้ถูกต้อง ครูต้องการยกระดับการถามให้กระตุ้นการคิดขั้นสูง ควรเปลี่ยนเป็นคำถามในลักษณะใด", "o": ["ตะไคร้มีสรรพคุณทางยาและคุณค่าทางโภชนาการอะไรที่ควรรู้บ้าง", "ตะไคร้แตกต่างจากข่าและพืชในตระกูลเดียวกันในลักษณะใดบ้าง", "ชาวบ้านในชุมชนนำตะไคร้ไปประยุกต์ใช้ในชีวิตประจำวันอย่างไร", "หากชุมชนต้องเพิ่มรายได้จากตะไคร้ นักเรียนจะเสนอแผนธุรกิจอย่างไร"], "a": 3}, {"q": "ครูออกแบบกิจกรรมให้นักเรียนศึกษาวิถีชีวิตของกลุ่มชาติพันธุ์ในชุมชนตนเอง เปรียบเทียบกับชุมชนอื่นในจังหวัดเชียงใหม่ แล้วนำเสนอมุมมองเกี่ยวกับการอยู่ร่วมกันท่ามกลางความหลากหลาย กิจกรรมนี้ส่งเสริมสมรรถนะด้านใดตามกรอบ PISA มากที่สุด", "o": ["ความเข้าใจโลก Global Competence เพราะวิเคราะห์ความหลากหลายวัฒนธรรม", "ความฉลาดรู้ด้านการอ่าน เพราะต้องอ่านและสรุปข้อมูลหลายแหล่ง", "ความฉลาดรู้ด้านวิทยาศาสตร์ เพราะเกี่ยวกับสภาพแวดล้อมชุมชน", "ความฉลาดรู้ด้านคณิตศาสตร์ เพราะต้องเปรียบเทียบและวิเคราะห์ข้อมูล"], "a": 0}, {"q": "ครูจัดการเรียนรู้บูรณาการมาตลอดภาคเรียนโดยเน้นการคิดวิเคราะห์ แต่ใช้แบบทดสอบปรนัยวัดความจำเป็นเครื่องมือประเมินหลัก ผลที่น่าจะเกิดขึ้นมากที่สุดคือข้อใด", "o": ["ผลการประเมินสะท้อนสมรรถนะที่แท้จริงของนักเรียนได้อย่างครบถ้วน", "นักเรียนที่มีทักษะการคิดสูงจะได้คะแนนสูงอยู่ดีไม่ว่าเครื่องมือจะเป็นอะไร", "แบบทดสอบปรนัยวัดการคิดขั้นสูงได้หากออกแบบตัวเลือกให้ซับซ้อนพอ", "ผลการประเมินไม่สอดคล้องกับเป้าหมายทำให้ไม่เห็นพัฒนาการที่แท้จริง"], "a": 3}, {"q": "ครูต้องการวัดว่านักเรียนสามารถนำความรู้เรื่องระบบนิเวศไปใช้วิเคราะห์ปัญหาจริงในชุมชนได้หรือไม่ ครูควรเลือกเครื่องมือประเมินใดจึงจะสอดคล้องกับเป้าหมายนี้มากที่สุด", "o": ["แบบทดสอบปรนัยที่ออกแบบมีบริบทเกี่ยวกับระบบนิเวศในชุมชน", "Rubric ประเมินชิ้นงานจากการแก้ปัญหาจริง พร้อมแฟ้มแสดงกระบวนการคิด", "แบบสังเกตพฤติกรรมที่ครูบันทึกระหว่างนักเรียนทำกิจกรรมกลุ่ม", "แบบทดสอบอัตนัยให้นักเรียนอธิบายหลักการของระบบนิเวศด้วยตนเอง"], "a": 1}, {"q": "ครูออกแบบ Rubric ประเมินโครงงานชุมชนของนักเรียน โดยกำหนดเกณฑ์ว่าระดับ 4 คือชิ้นงานมีความสวยงาม สมบูรณ์ และอ้างอิงแหล่งข้อมูลครบถ้วน ศึกษานิเทศก์ควรให้คำแนะนำในการปรับปรุง Rubric นี้อย่างไร", "o": ["เพิ่มเกณฑ์ระบุความยาวขั้นต่ำของชิ้นงานให้ชัดเจนและวัดได้ง่าย", "ปรับเกณฑ์ให้สะท้อนระดับการคิดวิเคราะห์และคุณภาพข้อเสนอต่อชุมชน", "ลดจำนวนระดับเกณฑ์ลงเหลือ 2-3 ระดับเพื่อให้ประเมินได้รวดเร็วขึ้น", "เพิ่มเกณฑ์การมีส่วนร่วมและความตั้งใจในการทำงานลงในแต่ละระดับ"], "a": 1}, {"q": "ครูให้นักเรียนประเมินแผนพัฒนาชุมชนที่นักเรียนสร้างขึ้นโดยนำเสนอต่อคณะกรรมการที่ประกอบด้วยผู้นำชุมชนจริง แทนการนำเสนอต่อครูในห้องเรียน เมื่อเปรียบเทียบกับการประเมินปกติ วิธีนี้มีจุดเด่นในด้านใดชัดเจนที่สุด", "o": ["ลดความเครียดของนักเรียนเพราะผู้ฟังไม่ใช่ครูที่ตัดสินให้คะแนน", "นักเรียนแสดงสมรรถนะในบริบทจริงให้เห็นว่านำความรู้ไปใช้ได้จริงหรือไม่", "ผู้นำชุมชนประเมินได้แม่นยำกว่าเพราะเข้าใจบริบทชุมชนดีกว่าครู", "ประหยัดเวลาครูในการตรวจประเมินเพราะมีบุคคลภายนอกช่วยประเมิน"], "a": 1}, {"q": "ครูให้นักเรียนประเมินชิ้นงานของเพื่อนโดยใช้ Rubric เดียวกับที่ครูใช้ พบว่านักเรียนบางคนให้คะแนนเพื่อนสูงเกินจริงเพราะเกรงใจ ครูควรจัดการกับปัญหานี้อย่างไร", "o": ["ยกเลิกการประเมินโดยเพื่อนและให้ครูเป็นผู้ประเมินเองทั้งหมด", "ฝึกนักเรียนเข้าใจเกณฑ์ผ่านตัวอย่าง และสร้างบรรยากาศเพื่อการเรียนรู้", "ให้นักเรียนประเมินแบบนิรนามไม่เปิดเผยตัวตนเพื่อลดปัญหาเกรงใจ", "ลดสัดส่วนคะแนนจากการประเมินโดยเพื่อนให้น้อยที่สุดเท่าที่ทำได้"], "a": 1}, {"q": "หลังจากประเมินผลการเรียนรู้บูรณาการ ครูพบว่านักเรียน 40% ยังไม่สามารถเชื่อมโยงความรู้หลายวิชาเพื่อแก้ปัญหาในบริบทชุมชนได้ ครูควรนำผลนี้ไปใช้อย่างไรจึงจะเกิดประโยชน์สูงสุด", "o": ["รายงานผลต่อผู้บริหารโรงเรียนเพื่อขอรับการสนับสนุนเพิ่มเติม", "เพิ่มชั่วโมงสอนให้นักเรียนมีเวลาเรียนเนื้อหาตามหลักสูตรมากขึ้น", "ลดความซับซ้อนของกิจกรรมลงเพื่อให้นักเรียนสามารถทำได้ครบทุกคน", "วิเคราะห์ว่ากิจกรรมใดขาดการกระตุ้นการคิด แล้วออกแบบกิจกรรมเสริมตรงจุด"], "a": 3}, {"q": "ศึกษานิเทศก์สังเกตครูสองท่านหลังจากดูผลการประเมินสมรรถนะนักเรียน ครู A พยักหน้าแล้วเก็บผลไว้ในแฟ้ม ครู B นำผลมาวิเคราะห์ว่ากิจกรรมใดได้ผลดีหรือไม่ดี อะไรคือสาเหตุ แล้ววางแผนปรับการสอนในสัปดาห์ถัดไป พฤติกรรมของครู B สะท้อนคุณลักษณะสำคัญใดของครูมืออาชีพ", "o": ["ความรับผิดชอบในการเก็บรวบรวมข้อมูลนักเรียนอย่างเป็นระบบ", "ความมุ่งมั่นและการอุทิศเวลาให้กับภาระหน้าที่วิชาชีพครู", "ทักษะวิเคราะห์ข้อมูลเชิงสถิติเพื่อพัฒนาผลสัมฤทธิ์นักเรียน", "การสะท้อนคิดเชิงวิชาชีพ Reflective Practice ใช้ผลประเมินพัฒนาสอน"], "a": 3}];
 var SHEET="https://script.google.com/macros/s/AKfycbx6UHv9HZOKBzNaccYgLF2Uyj5Ji0WSKjUeOsXrGAO2nuxRj0tMh7l8YDtmLSHpOykF/exec";
+var SCHOOLS=["โรงเรียนบ้านบ่อแก้ว", "โรงเรียนบ้านแม่สา", "โรงเรียนบ้านทุ่งโป่ง", "โรงเรียนชุมชนบ้านโป่ง", "โรงเรียนป่าจี้วังแดงวิทยา", "โรงเรียนบ้านแม่ขะปู"];
 var SEC=[
   {l:"ตอนที่ 1 · ความรู้ความเข้าใจ",r:[0,7]},
   {l:"ตอนที่ 2 · การออกแบบการเรียนรู้",r:[8,15]},
@@ -300,12 +278,119 @@ var K=["ก","ข","ค","ง"];
 var TSEC=2700;
 var G={sub:"",sch:"",type:"",ord:[],ans:{},idx:0};
 var TI=null,TL=TSEC;
+var selSchool=-1,selNum=-1;
+
+// สร้างปุ่มโรงเรียน
+var sg=document.getElementById("school-grid");
+for(var i=0;i<SCHOOLS.length;i++){
+  (function(idx){
+    var b=document.createElement("button");
+    b.className="sel-btn";
+    b.textContent=SCHOOLS[idx].replace("โรงเรียน","");
+    b.title=SCHOOLS[idx];
+    b.onclick=function(){
+      selSchool=idx;
+      var bs=document.querySelectorAll("#school-grid .sel-btn");
+      for(var j=0;j<bs.length;j++) bs[j].classList.remove("active");
+      this.classList.add("active");
+      updateInfo();
+    };
+    sg.appendChild(b);
+  })(i);
+}
+
+// สร้างปุ่มเลขที่
+var ng=document.getElementById("num-grid");
+for(var n=1;n<=10;n++){
+  (function(num){
+    var b=document.createElement("button");
+    b.className="sel-btn";
+    b.textContent=""+num;
+    b.onclick=function(){
+      selNum=num;
+      var bs=document.querySelectorAll("#num-grid .sel-btn");
+      for(var j=0;j<bs.length;j++) bs[j].classList.remove("active");
+      this.classList.add("active");
+      updateInfo();
+    };
+    ng.appendChild(b);
+  })(n);
+}
+
+function updateInfo(){
+  var box=document.getElementById("info-box");
+  var btn=document.getElementById("btn-confirm");
+  if(selSchool>=0 && selNum>=0){
+    box.style.display="block";
+    box.innerHTML="✓ <strong>"+SCHOOLS[selSchool]+"</strong> &nbsp;เลขที่ <strong>"+selNum+"</strong>";
+    btn.style.display="inline-flex";
+  } else {
+    box.style.display="none";
+    btn.style.display="none";
+  }
+}
+
+function doConfirm(){
+  if(selSchool<0||selNum<0){alert("กรุณาเลือกโรงเรียนและเลขที่");return;}
+  G.sch=SCHOOLS[selSchool];
+  G.sub="เลขที่"+selNum;
+  document.getElementById("al-pre").style.display="none";
+  document.getElementById("al-lock").style.display="none";
+  document.getElementById("al-post").style.display="none";
+  document.getElementById("tc-pre").removeAttribute("disabled");
+  document.getElementById("tc-post").removeAttribute("disabled");
+
+  // ตรวจสอบ localStorage ว่าเคยสอบอะไรบ้าง
+  var key=G.sch+"||"+G.sub;
+  var saved=getSaved(key);
+  var preDone=saved&&saved.pre!==undefined;
+  var postDone=saved&&saved.post!==undefined;
+
+  if(preDone){
+    document.getElementById("al-pre").style.display="flex";
+    document.getElementById("al-pre-txt").textContent="สอบก่อนนิเทศแล้ว — ได้ "+saved.pre+" / 30 คะแนน";
+    document.getElementById("tc-pre").setAttribute("disabled","1");
+  }
+  if(postDone){
+    document.getElementById("al-post").style.display="flex";
+    document.getElementById("al-post-txt").textContent="สอบหลังนิเทศแล้ว — ได้ "+saved.post+" / 30 คะแนน";
+    document.getElementById("tc-post").setAttribute("disabled","1");
+  }
+  if(!preDone){
+    document.getElementById("al-lock").style.display="flex";
+    document.getElementById("tc-post").setAttribute("disabled","1");
+  }
+
+  document.getElementById("btn-confirm").style.display="none";
+  document.getElementById("test-area").style.display="block";
+}
+
+// localStorage
+function lsKey(sch,sub){return sch+"||"+sub;}
+function getSaved(key){try{return JSON.parse(localStorage.getItem(key)||"null");}catch(e){return null;}}
+function setSaved(key,data){try{localStorage.setItem(key,JSON.stringify(data));}catch(e){}}
+
+function saveScore(sch,sub,type,score){
+  var key=lsKey(sch,sub);
+  var d=getSaved(key)||{};
+  d[type]=score;
+  setSaved(key,d);
+}
+
+function saveSheet(sch,sub,type,score){
+  var payload="subject="+encodeURIComponent(sub)
+    +"&school="+encodeURIComponent(sch)
+    +"&testType="+encodeURIComponent(type)
+    +"&score="+encodeURIComponent(score)
+    +"&timestamp="+encodeURIComponent(new Date().toISOString());
+  fetch(SHEET,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:payload}).catch(function(){});
+  try{new Image().src=SHEET+"?"+payload+"&_="+Date.now();}catch(e2){}
+}
 
 function el(id){return document.getElementById(id);}
 function show(id){
   ["s-home","s-quiz","s-result","s-review"].forEach(function(x){el(x).classList.remove("on");});
-  el(id).classList.add("on");
-  window.scrollTo(0,0);
+  el(id).classList.add("on");window.scrollTo(0,0);
 }
 function getSec(p){
   for(var i=0;i<SEC.length;i++) if(p>=SEC[i].r[0]&&p<=SEC[i].r[1]) return SEC[i].l;
@@ -316,46 +401,17 @@ function sfl(a){
   while(i--){j=Math.floor(Math.random()*(i+1));t=b[i];b[i]=b[j];b[j]=t;}
   return b;
 }
-function saveSheet(sub,sch,type,score){
-  var payload="subject="+encodeURIComponent(sub)
-    +"&school="+encodeURIComponent(sch)
-    +"&testType="+encodeURIComponent(type)
-    +"&score="+encodeURIComponent(score)
-    +"&timestamp="+encodeURIComponent(new Date().toISOString());
-  // วิธีที่ 1: fetch no-cors
-  fetch(SHEET,{
-    method:"POST",
-    mode:"no-cors",
-    headers:{"Content-Type":"application/x-www-form-urlencoded"},
-    body:payload
-  }).catch(function(){});
-  // วิธีที่ 2: Image beacon เป็น fallback
-  try{
-    new Image().src=SHEET+"?"+payload+"&_="+Date.now();
-  }catch(e2){}
-}
-function doLookup(){
-  var sub=el("i-sub").value.trim();
-  var sch=el("i-sch").value.trim();
-  if(!sub||!sch){alert("กรุณากรอกวิชาที่สอนและชื่อโรงเรียน");return;}
-  G.sub=sub;G.sch=sch;
-  el("al-pre").style.display="none";
-  el("al-lock").style.display="none";
-  el("al-post").style.display="none";
-  el("tc-pre").removeAttribute("disabled");
-  el("tc-post").setAttribute("disabled","1");
-  el("al-lock").style.display="flex";
-  el("test-area").style.display="block";
-}
+
 function beginTest(type){
   G.type=type;
   G.ord=sfl([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]);
   G.ans={};G.idx=0;
   el("qbadge").textContent=type==="pre"?"ก่อนนิเทศ":"หลังนิเทศ";
   el("qbadge").className="badge "+(type==="pre"?"bg":"bt");
-  el("qname").textContent=G.sub;
+  el("qname").textContent=G.sch.replace("โรงเรียน","")+" "+G.sub;
   show("s-quiz");startT();renderQ();
 }
+
 function renderQ(){
   var p=G.idx,qi=G.ord[p],q=Q[qi];
   el("qnum").textContent="ข้อที่ "+(p+1);
@@ -376,6 +432,7 @@ function renderQ(){
   el("btn-next").style.display=p===29?"none":"inline-flex";
   el("btn-sub").style.display=p===29?"inline-flex":"none";
 }
+
 function pickOpt(i){
   G.ans[G.idx]=i;
   var os=document.querySelectorAll(".opt");
@@ -385,13 +442,16 @@ function pickOpt(i){
 function nextQ(){if(G.idx<29){G.idx++;renderQ();}}
 function prevQ(){if(G.idx>0){G.idx--;renderQ();}}
 function calcSc(){var s=0;for(var i=0;i<30;i++){if(G.ans[i]===Q[G.ord[i]].a)s++;}return s;}
+
 function doSubmit(){
   var done=Object.keys(G.ans).length;
   if(done<30&&!confirm("ยังตอบไม่ครบ ("+done+"/30) ต้องการส่งหรือไม่?"))return;
   var sc=calcSc();
-  saveSheet(G.sub,G.sch,G.type,sc);
+  saveScore(G.sch,G.sub,G.type,sc);
+  saveSheet(G.sch,G.sub,G.type,sc);
   showRes(sc);
 }
+
 function startT(){
   TL=TSEC;el("tbar").style.display="flex";el("tbar").className="tbar";
   tickT();if(TI)clearInterval(TI);
@@ -405,9 +465,12 @@ function tickT(){
   el("tbar").className=TL<=300?"tbar danger":TL<=600?"tbar warn":"tbar";
 }
 function timeUp(){
-  var sc=calcSc();saveSheet(G.sub,G.sch,G.type,sc);
+  var sc=calcSc();
+  saveScore(G.sch,G.sub,G.type,sc);
+  saveSheet(G.sch,G.sub,G.type,sc);
   stopT();alert("หมดเวลา! บันทึกคะแนนอัตโนมัติ");showRes(sc);
 }
+
 function showRes(sc){
   stopT();show("s-result");
   var pct=Math.round(sc/30*100);
@@ -418,9 +481,10 @@ function showRes(sc){
     +'<div class="rscore">'+sc+'<span>/30</span></div>'
     +'<div class="rpct">'+pct+'%</div>'
     +'<div class="rbadge">'+ic+'&nbsp;'+lv+'</div>'
-    +'<div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.4)">'+G.sub+' · '+G.sch+'</div>'
+    +'<div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.4)">'+G.sch+' · '+G.sub+'</div>'
     +'</div>';
 }
+
 function doReview(){
   show("s-review");var h="";
   for(var p=0;p<30;p++){
@@ -435,14 +499,16 @@ function doReview(){
   el("rev-out").innerHTML=h;
 }
 function backRes(){show("s-result");}
+
 function goHome(){
   stopT();show("s-home");
-  el("test-area").style.display="none";
-  el("i-sub").value="";el("i-sch").value="";
+  // reset selection
+  selSchool=-1;selNum=-1;
+  document.querySelectorAll(".sel-btn").forEach(function(b){b.classList.remove("active");});
+  document.getElementById("info-box").style.display="none";
+  document.getElementById("btn-confirm").style.display="none";
+  document.getElementById("test-area").style.display="none";
 }
-document.addEventListener("keydown",function(ev){
-  if(ev.key==="Enter"&&el("test-area").style.display==="none") doLookup();
-});
 </script>
 </body>
 </html>
