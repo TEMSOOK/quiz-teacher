@@ -278,8 +278,8 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
         </div>
         <div class="card-body">
           <div class="field-grid">
-            <div class="field"><label>วิชาที่สอน</label><input id="subject" type="text" placeholder="เช่น วิทยาศาสตร์"></div>
-            <div class="field"><label>โรงเรียน</label><input id="school" type="text" placeholder="ชื่อโรงเรียน"></div>
+            <div class="field"><label>วิชาที่สอน</label><input id="subject" type="text" placeholder="เช่น วิทยาศาสตร์" onkeydown="if(event.key==='Enter')lookupRecord()"></div>
+            <div class="field"><label>โรงเรียน</label><input id="school" type="text" placeholder="ชื่อโรงเรียน" onkeydown="if(event.key==='Enter')lookupRecord()"></div>
           </div>
           <div id="lookup-area">
             <button class="btn btn-dark" onclick="lookupRecord()">
