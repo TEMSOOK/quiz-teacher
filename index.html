@@ -370,6 +370,11 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 <div class="footer">สำนักงานศึกษาธิการ · ระบบแบบทดสอบสมรรถนะครู © 2567</div>
 </div>
 
+
+
+<iframe name="_blank_iframe" style="display:none"></iframe>
+
+<iframe name="hf" style="display:none"></iframe>
 <script>
 const Q=[
   {q:"ครูสมศรีออกแบบหน่วยการเรียนรู้โดยให้นักเรียนศึกษา 'ระบบการจัดการน้ำในชุมชน' โดยนำเนื้อหาวิทยาศาสตร์ สังคมศึกษา และคณิตศาสตร์มาหลอมรวมกันเป็นโจทย์เดียว นักเรียนต้องวิเคราะห์สาเหตุการขาดแคลนน้ำ คำนวณปริมาณการใช้น้ำ และเสนอแนวทางแก้ไข ลักษณะการบูรณาการของครูสมศรีสอดคล้องกับหลักการใดมากที่สุด",o:["การสอนแต่ละวิชาแยกกันโดยมีหัวข้อร่วมกันแต่ไม่เชื่อมเนื้อหา","การสอนเนื้อหาทีละวิชาตามลำดับหลักสูตรแล้วค่อยเชื่อมโยงภายหลัง","การให้ครูหลายคนร่วมสอนในหัวข้อเดียวกันพร้อมกัน","การนำเนื้อหาหลายวิชามาหลอมรวมเพื่อแก้ปัญหาในบริบทจริง"],a:3},
@@ -405,7 +410,7 @@ const Q=[
 ];
 
 var SHEET_URL="https://script.google.com/macros/s/AKfycbx6UHv9HZOKBzNaccYgLF2Uyj5Ji0WSKjUeOsXrGAO2nuxRj0tMh7l8YDtmLSHpOykF/exec";
-var SECTIONS=[
+var SEC=[
   {label:"ตอนที่ 1 · ความรู้ความเข้าใจ",r:[0,7]},
   {label:"ตอนที่ 2 · การออกแบบการเรียนรู้",r:[8,15]},
   {label:"ตอนที่ 3 · กิจกรรมส่งเสริม PISA",r:[16,22]},
@@ -426,60 +431,49 @@ function showScreen(id){
 }
 
 function switchTab(t){
-  var bs=document.querySelectorAll(".tab-btn");
-  bs[0].classList.toggle("active",t==="test");
+  document.querySelectorAll(".tab-btn")[0].classList.add("active");
   el("tab-test").style.display="block";
 }
 
 function shuffle(a){
-  var b=a.slice();
-  for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}
+  var b=a.slice(),i=b.length,j,t;
+  while(i--){j=Math.floor(Math.random()*(i+1));t=b[i];b[i]=b[j];b[j]=t;}
   return b;
 }
 
 function getSec(pos){
-  for(var i=0;i<SECTIONS.length;i++)
-    if(pos>=SECTIONS[i].r[0]&&pos<=SECTIONS[i].r[1])return SECTIONS[i].label;
+  for(var i=0;i<SEC.length;i++)
+    if(pos>=SEC[i].r[0]&&pos<=SEC[i].r[1])return SEC[i].label;
   return "";
 }
 
-// ── บันทึกลง Sheets ด้วย iframe (ไม่มี CORS) ──
 function saveToSheet(sub,sch,type,score){
   try{
     var f=document.createElement("form");
-    f.method="POST";
-    f.action=SHEET_URL;
-    f.target="_blank_iframe";
-    var fields={subject:sub,school:sch,testType:type,score:score,timestamp:new Date().toISOString()};
-    for(var k in fields){
-      var inp=document.createElement("input");
-      inp.type="hidden"; inp.name=k; inp.value=fields[k];
-      f.appendChild(inp);
-    }
-    document.body.appendChild(f);
-    f.submit();
-    document.body.removeChild(f);
+    f.method="POST";f.action=SHEET_URL;f.target="hf";
+    var d={subject:sub,school:sch,testType:type,score:score,timestamp:new Date().toISOString()};
+    for(var k in d){var inp=document.createElement("input");inp.type="hidden";inp.name=k;inp.value=d[k];f.appendChild(inp);}
+    document.body.appendChild(f);f.submit();document.body.removeChild(f);
   }catch(e){}
 }
 
-// ── HOME ──
 function lookupRecord(){
   var sub=el("subject").value.trim();
   var sch=el("school").value.trim();
   if(!sub||!sch){alert("กรุณากรอกวิชาที่สอน และชื่อโรงเรียน");return;}
-  S.sub=sub; S.sch=sch;
+  S.sub=sub;S.sch=sch;
   el("lookup-area").style.display="none";
   el("test-type-area").style.display="block";
   el("alert-pre").style.display="none";
   el("alert-post-locked").style.display="none";
   el("alert-post-done").style.display="none";
-  var bp=el("btn-pre"), bpo=el("btn-post");
-  bp.style.opacity="1"; bp.style.cursor="pointer"; bp.onclick=function(){startTest("pre");};
-  bpo.style.opacity="0.35"; bpo.style.cursor="not-allowed"; bpo.onclick=null;
+  var bp=el("btn-pre"),bpo=el("btn-post");
+  bp.style.opacity="1";bp.style.cursor="pointer";
+  bp.onclick=function(){startTest("pre");};
+  bpo.style.opacity="0.35";bpo.style.cursor="not-allowed";bpo.onclick=null;
   el("alert-post-locked").style.display="flex";
 }
 
-// ── TIMER ──
 function startTimer(){
   timerLeft=QUIZ_SEC;
   el("timer-bar").style.display="flex";
@@ -493,7 +487,7 @@ function startTimer(){
 }
 function stopTimer(){
   if(timerInt){clearInterval(timerInt);timerInt=null;}
-  if(el("timer-bar"))el("timer-bar").style.display="none";
+  var b=el("timer-bar");if(b)b.style.display="none";
 }
 function tickTimer(){
   var m=Math.floor(timerLeft/60),s=timerLeft%60;
@@ -504,31 +498,29 @@ function tickTimer(){
 function timeUp(){
   var score=calcScore();
   saveToSheet(S.sub,S.sch,S.type,score);
+  stopTimer();
   alert("หมดเวลา! ระบบบันทึกคะแนนให้อัตโนมัติ");
   showResult(score);
 }
 
-// ── QUIZ ──
 function startTest(type){
   S.type=type;
   S.order=shuffle([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]);
-  S.ans={}; S.idx=0;
+  S.ans={};S.idx=0;
   el("quiz-type-badge").textContent=type==="pre"?"ก่อนนิเทศ":"หลังนิเทศ";
   el("quiz-type-badge").className="badge "+(type==="pre"?"badge-gold":"badge-teal");
   el("quiz-name-badge").textContent=S.sub;
-  showScreen("screen-quiz");
-  startTimer();
-  renderQ();
+  showScreen("screen-quiz");startTimer();renderQ();
 }
 
 function renderQ(){
-  var pos=S.idx, qIdx=S.order[pos], q=Q[qIdx];
+  var pos=S.idx,qIdx=S.order[pos],q=Q[qIdx];
   el("q-num").textContent="ข้อที่ "+(pos+1);
   el("progress-bar").style.width=((pos+1)/30*100).toFixed(1)+"%";
   el("section-label").textContent=getSec(pos);
   el("q-text").textContent=q.q;
   el("answered-pill").textContent="ตอบแล้ว "+Object.keys(S.ans).length+"/30";
-  var con=el("q-opts"); con.innerHTML="";
+  var con=el("q-opts");con.innerHTML="";
   for(var i=0;i<q.o.length;i++){
     (function(idx){
       var d=document.createElement("div");
@@ -550,16 +542,13 @@ function pickOpt(i){
   for(var j=0;j<opts.length;j++)opts[j].classList.toggle("selected",j===i);
   el("answered-pill").textContent="ตอบแล้ว "+Object.keys(S.ans).length+"/30";
 }
-
 function nextQ(){if(S.idx<29){S.idx++;renderQ();}}
 function prevQ(){if(S.idx>0){S.idx--;renderQ();}}
-
 function calcScore(){
   var sc=0;
   for(var i=0;i<30;i++){if(S.ans[i]===Q[S.order[i]].a)sc++;}
   return sc;
 }
-
 function submitTest(){
   var done=Object.keys(S.ans).length;
   if(done<30&&!confirm("ยังตอบไม่ครบ ("+done+"/30)\nต้องการส่งคำตอบหรือไม่?"))return;
@@ -568,29 +557,25 @@ function submitTest(){
   showResult(score);
 }
 
-// ── RESULT ──
 function showResult(score){
-  stopTimer();
-  showScreen("screen-result");
+  stopTimer();showScreen("screen-result");
   var pct=Math.round(score/30*100);
-  var level=pct>=80?"สมรรถนะสูง":pct>=60?"สมรรถนะปานกลาง":"ต้องพัฒนาเพิ่มเติม";
-  var icon=pct>=80?"🏆":pct>=60?"📘":"📌";
+  var lv=pct>=80?"สมรรถนะสูง":pct>=60?"สมรรถนะปานกลาง":"ต้องพัฒนาเพิ่มเติม";
+  var ic=pct>=80?"🏆":pct>=60?"📘":"📌";
   el("result-content").innerHTML=
     '<div class="result-hero">'
     +'<div class="result-label">'+(S.type==="pre"?"ผลการสอบก่อนรับการนิเทศ":"ผลการสอบหลังรับการนิเทศ")+'</div>'
     +'<div class="score-display">'+score+'<span>/30</span></div>'
     +'<div class="score-pct">'+pct+'%</div>'
-    +'<div class="result-badge">'+icon+'&nbsp;'+level+'</div>'
-    +'<div style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.4)">'+S.sub+' &nbsp;·&nbsp; '+S.sch+'</div>'
+    +'<div class="result-badge">'+ic+'&nbsp;'+lv+'</div>'
+    +'<div style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.4)">'+S.sub+' · '+S.sch+'</div>'
     +'</div>';
 }
 
-// ── REVIEW ──
 function reviewAnswers(){
-  showScreen("screen-review");
-  var html="";
+  showScreen("screen-review");var html="";
   for(var pos=0;pos<30;pos++){
-    var qIdx=S.order[pos], q=Q[qIdx], chosen=S.ans[pos], ok=(chosen===q.a);
+    var qIdx=S.order[pos],q=Q[qIdx],chosen=S.ans[pos],ok=(chosen===q.a);
     html+='<div class="rev-item '+(ok?"ok":"fail")+'">'
       +'<div class="rev-header"><span>ข้อที่ '+(pos+1)+' · '+getSec(pos)+'</span>'
       +'<span>'+(ok?"✓ ถูก":"✗ ผิด")+'</span></div>'
@@ -605,18 +590,13 @@ function reviewAnswers(){
 }
 function backToResult(){showScreen("screen-result");}
 
-// ── GO HOME ──
 function goHome(){
-  stopTimer();
-  showScreen("screen-home");
+  stopTimer();showScreen("screen-home");
   el("test-type-area").style.display="none";
   el("lookup-area").style.display="block";
-  el("subject").value="";
-  el("school").value="";
+  el("subject").value="";el("school").value="";
 }
 
 </script>
-
-<iframe name="_blank_iframe" style="display:none"></iframe>
 </body>
 </html>
