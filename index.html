@@ -530,22 +530,45 @@ function lookupRecord(){
   const sub=$('subject').value.trim(),sch=$('school').value.trim();
   if(!sub||!sch){alert('กรุณากรอกข้อมูลให้ครบ');return}
   S.subject=sub;S.school=sch;
+
+  // แสดงปุ่มสอบ
   $('test-type-area').style.display='block';
   $('lookup-area').style.display='none';
+
+  // reset state ทุกครั้ง
+  $('alert-pre').style.display='none';
+  $('alert-post-locked').style.display='none';
+  $('alert-post-done').style.display='none';
+  $('btn-pre').removeAttribute('disabled');
+  $('btn-post').removeAttribute('disabled');
+
   const rec=getLocal(sub,sch);
   const preDone=rec&&rec.pre_score!==undefined;
   const postDone=rec&&rec.post_score!==undefined;
+
   if(preDone){
     $('alert-pre').style.display='flex';
     $('alert-pre-text').textContent='สอบก่อนรับการนิเทศแล้ว — ได้ '+rec.pre_score+' / 30 คะแนน';
-    $('btn-pre').disabled=true;
+    $('btn-pre').setAttribute('disabled','true');
+    $('btn-pre').style.opacity='0.4';
+    $('btn-pre').style.cursor='not-allowed';
+    $('btn-pre').onclick=null;
   }
   if(postDone){
     $('alert-post-done').style.display='flex';
     $('alert-post-text').textContent='สอบหลังรับการนิเทศแล้ว — ได้ '+rec.post_score+' / 30 คะแนน';
-    $('btn-post').disabled=true;
+    $('btn-post').setAttribute('disabled','true');
+    $('btn-post').style.opacity='0.4';
+    $('btn-post').style.cursor='not-allowed';
+    $('btn-post').onclick=null;
   }
-  if(!preDone){$('alert-post-locked').style.display='flex';$('btn-post').disabled=true;}
+  if(!preDone){
+    $('alert-post-locked').style.display='flex';
+    $('btn-post').setAttribute('disabled','true');
+    $('btn-post').style.opacity='0.4';
+    $('btn-post').style.cursor='not-allowed';
+    $('btn-post').onclick=null;
+  }
 }
 
 // ─── TIMER ───────────────────────────────
@@ -723,9 +746,17 @@ async function viewScores(){
 // ─── GO HOME ─────────────────────────────
 function goHome(){
   stopTimer();showScreen('screen-home');
-  $('test-type-area').style.display='none';$('lookup-area').style.display='block';
+  $('test-type-area').style.display='none';
+  $('lookup-area').style.display='block';
   ['alert-pre','alert-post-locked','alert-post-done'].forEach(id=>$(id).style.display='none');
-  $('btn-pre').disabled=false;$('btn-post').disabled=false;
+  // restore buttons
+  ['btn-pre','btn-post'].forEach(id=>{
+    $(id).removeAttribute('disabled');
+    $(id).style.opacity='';
+    $(id).style.cursor='';
+  });
+  $('btn-pre').onclick=()=>startTest('pre');
+  $('btn-post').onclick=()=>startTest('post');
   $('subject').value='';$('school').value='';
 }
 
